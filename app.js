@@ -5,6 +5,8 @@ const { db, Pages, Users } = require('./models');
 const wikiRoutes = require('./routes/wiki');
 const userRoutes = require('./routes/user');
 
+
+
 db.authenticate().then(() => {
   console.log('connected to the database');
 })
@@ -26,6 +28,9 @@ app.get('/', (req, res) => {
 
 const PORT = 1338;
 const init = async () => {
+  //use to reset database
+  // await Users.sync({ force: true });
+  // await Pages.sync({ force: true });
   await Users.sync();
   await Pages.sync();
   app.listen(PORT, () => {

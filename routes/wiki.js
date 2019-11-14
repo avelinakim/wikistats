@@ -4,6 +4,12 @@ const { db, Pages, Users } = require('../models/index');
 const main = require('../views/main');
 const { addPage } = require('../views');
 
+function generateSlug(title) {
+  // Removes all non-alphanumeric characters from title
+  // And make whitespace underscore
+  return title.replace(/\s+/g, '_').replace(/\W/g, '');
+}
+
 router.get('/', async (req, res, next) => {
   try {
     const pagesData = await Pages.findAll();
@@ -15,9 +21,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body)
+    const page = new Pages({
+      title: req.body.title,
+      content: req.body.content,
+      status: req.body.status,
+    });
+
+
+    await page.save();
+    res.redirect('/');
+    console.log("REQ.BODY ", req.body)
     res.json(req.body);
   } catch (error) {
     console.log("ERROR ", error);

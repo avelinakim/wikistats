@@ -12,12 +12,22 @@ const Pages = db.define('pages', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  constent: {
+  content: {
     type: Sequelize.STRING,
     allowNull: false
   },
   status: Sequelize.ENUM('open', 'closed')
 })
+
+function generateSlug(title) {
+  // Removes all non-alphanumeric characters from title
+  // And make whitespace underscore
+  return title.replace(/\s+/g, '_').replace(/\W/g, '');
+}
+
+Pages.beforeValidate((page, options) => {
+  page.slug = generateSlug(page.title);
+});
 
 const Users = db.define('users', {
   name: {
@@ -33,6 +43,8 @@ const Users = db.define('users', {
     unique: true
   }
 })
+
+
 
 module.exports = { db, Pages, Users }
 
