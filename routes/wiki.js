@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db, Pages, Users } = require('../models/index');
 const main = require('../views/main');
+const { addPage } = require('../views');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -16,7 +17,8 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   try {
-    res.send('got post /wiki')
+    console.log(req.body)
+    res.json(req.body);
   } catch (error) {
     console.log("ERROR ", error);
     next(error);
@@ -25,7 +27,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/add', async (req, res, next) => {
   try {
-    res.send('got to GET /wiki/add');
+    res.send(addPage());
   } catch (error) {
     console.log("ERROR ", error);
     next(error);

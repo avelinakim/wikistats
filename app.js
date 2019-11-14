@@ -13,12 +13,15 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
+
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 app.use('/wiki', wikiRoutes);
 app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
-  res.send(main());
+  res.redirect('/wiki');
 })
 
 const PORT = 1338;
