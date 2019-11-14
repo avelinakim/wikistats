@@ -1,6 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const main = require('./views/main');
+const { db } = require('./models');
+
+db.authenticate().then(() => {
+  console.log('connected to the database');
+})
 
 const app = express();
 
